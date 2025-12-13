@@ -81,7 +81,7 @@ We will use rshell to communicate with the esp32 board. Install it as below:
 ```
 
 ### mpy-cross
-This is a cross-compiler that can convery traditional .py scripts into binaries, which saves space on esp32 boards:
+This is a cross-compiler that can convert traditional .py scripts into binaries, which saves space on esp32 boards:
 
 ```
 % pip install mpy-cross
@@ -98,5 +98,21 @@ Successfully installed mpy-cross-1.26.1.post2
 sudo rshell -b 115200 -p /dev/cu.usbserial-1420 -d -a
 ```
 
-### blinking_led
-https://www.instructables.com/Getting-Started-With-Python-for-ESP8266-ESP32/
+### Reading and Writing Files to esp32
+When using rshell, the contents of the esp32 are in a special directory called /pyboard. This means you can use rshell to read and copy files:
+
+```
+# Copy file onto esp32 from local directory
+cp myfile.py /pyboard
+# List files on esp32
+ls /pyboard
+# Copy file from esp32 to local directory
+cp /pyboard/boot.py .
+```
+
+### Examples for Blinking LEDs
+- https://www.instructables.com/Getting-Started-With-Python-for-ESP8266-ESP32/
+- https://techexplorations.com/guides/esp32/micropython-with-the-esp32/13-micropython-shell/
+- https://randomnerdtutorials.com/micropython-esp32-deep-sleep-wake-up-sources/
+
+
