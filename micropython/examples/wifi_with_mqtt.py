@@ -4,6 +4,9 @@ import uos
 import umqtt.simple
 import time
 
+from machine import Pin
+from utime import sleep
+
 
 def read_secrets(fname):
     result = dict()
@@ -72,14 +75,30 @@ hostinfo = host_info()
 for k in hostinfo:
     print(k+': '+hostinfo.get(k))
     
+secrets_filename='secrets.txt'
 credentials = read_secrets(secrets_filename)
 for k in credentials:
-    print('Found credendtial: '+k)
+    print('Found credential: '+k)
     
 connect_wifi(credentials)
-
 mqtt = connect_mqtt(credentials)
 
+topic = credentials.get('MQTT_PUBLISH_TOPIC')
+print('Using publish topic '+topic)
+
+mqtt.publish(topic,'Initiated connection from esp32',0)
+
+delay = 1         # seconds
+pin_number = 5    # pin for LED
+
+led = Pin(pin_number, Pin.OUT)
+
+while True:
+    led.on()
+    mqtt.publish(topic, 'Light ON',0)
+    sleep(delay)
+    led.off()
+    mqtt.publish(topic, 'Light OFF',0)
+    sleep(delay*2)
 
 
-connect_wifi(wifi_creds)
